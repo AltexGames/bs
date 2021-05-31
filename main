@@ -1,0 +1,83 @@
+def main():
+    while True:
+        print("Please enter numbers to sort(seperated with spaces):")
+        arr = list(map(int, input().split()))
+        print("Please enter sort function:" 
+              + "\n [1] BubbleSort"
+              + "\n [1] Inseration Sort"
+              + "\n [1] Shell sort"
+              + "\n [1] Min sort")
+        selectedFuntion = input()
+        if selectedFuntion == "1":
+            bubbleSort(arr)
+
+        if selectedFuntion == "2":
+            bubbleSort(arr)
+
+        if selectedFuntion == "3":
+            ShellSort(arr)
+
+        if selectedFuntion == "4":
+            MinSort(arr)
+
+def ShellSort(numbersToSort):
+    arrayLenght = len(numbersToSort)
+    iDela = 1
+    while iDela <= arrayLenght:
+        iDela = iDela*3 + 1
+    while int(iDela) != 1:
+        iDela = iDela / 3
+        for i in range(int(iDela), arrayLenght):
+            newValue = numbersToSort[i]
+            k = i
+            while numbersToSort[k-int(iDela)] > newValue:
+                numbersToSort[k] = numbersToSort[k - int(iDela)]
+                k = k - int(iDela)
+                if k < int(iDela):
+                    break
+                numbersToSort[k] = newValue
+    result = ''
+    for i in range(len(numbersToSort)):
+        result += " " + str(numbersToSort[i])
+    print("Result:" + result)
+
+def MinSort(numbersToSort):
+    arrayLenght = len(numbersToSort)
+    for k in range(1,arrayLenght):
+        minIndex = k-1
+        for i in range(k,arrayLenght):
+            if numbersToSort[i] < numbersToSort[minIndex]:
+                minIndex  = i
+        numbersToSort[k-1], numbersToSort[minIndex] = numbersToSort[minIndex], numbersToSort[k-1]
+
+    result = ''
+    for i in range(len(numbersToSort)):
+        result += " " + str(numbersToSort[i])
+    print("Result:" + result)
+
+def insertionSort(numbersToSort):
+    AnzEl = len(numbersToSort)
+    for k in range(1,AnzEl):
+        i = k 
+        while (numbersToSort[i - 1] > numbersToSort[i]) and (i != 0):
+            numbersToSort[i - 1], numbersToSort[i] = numbersToSort[i], numbersToSort[i - 1]
+            i = i - 1
+
+    result = ''
+    for i in range(len(numbersToSort)):
+        result += " " + str(numbersToSort[i])
+    print("Result:" + result)
+
+def bubbleSort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        for z in range(0, n - i - 1):
+            if arr[z] > arr[z + 1] :
+                arr[z], arr[z + 1] = arr[z + 1], arr[z]
+            
+    result = ''
+    for i in range(len(arr)):
+        result += " " + str(arr[i])
+    print("Result:" + result)
+
+main()
