@@ -1,0 +1,37 @@
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        private static bool isPlayerOneTurn = true;
+
+        public static string[] FieldsValues = new string[] { " ", " ", " ", " ", " ", " ", " ", " ", " ", };
+        public static readonly string CharacterPlayerOne = "X",
+            CharacterPlayerTwo = "O";
+        public static int OccupiedFieldsCount = 0;
+
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                Console.WriteLine("Willkommen bei TicTacToe");
+                Console.WriteLine("Welchen Spielmodus möchtest du spielen?:");
+                Console.WriteLine("[1] Spieler vs Spieler");
+                Console.WriteLine("[2] Spieler vs Computer");
+
+                string input = Console.ReadLine();
+                if (input == "1")
+                    TicTacToe.PlayerVSPlayerMode();
+                else if (input == "2")
+                    TicTacToe.PlayerVSComputerMode();
+                else
+                    continue;
+
+                Console.WriteLine("Möchtest du nocheinmal Spielen? [1] Ja | [2] Beenden");
+                if (Console.ReadLine() != "1")
+                    break;
+            }
+        }
+    }
+}
