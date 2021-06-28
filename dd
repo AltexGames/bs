@@ -1,0 +1,171 @@
+using System;
+
+namespace ConsoleApp1
+{
+    class Program
+    {
+        private static bool isPlayerOneTurn = true;
+
+        public static string[] FieldsValues = new string[] { " ", " ", " ", " ", " ", " ", " ", " ", " ", };
+        public static readonly string CharacterPlayerOne = "X",
+            CharacterPlayerTwo = "O";
+        public static int OccupiedFieldsCount = 0;
+
+        static void Main(string[] args)
+        {
+            while (true)
+            {
+                while (!IsGameEnded())
+                {
+                    DrawField();
+
+                    if (OccupiedFieldsCount == 9)
+                    {
+                        Console.WriteLine("Das Spiel ist zu ende, da alle Spielfelder belegt sind!");
+                        break;
+                    }
+
+                    if (isPlayerOneTurn)
+                    {
+
+                        isPlayerOneTurn = !isPlayerOneTurn;
+                        while (true)
+                        {
+                            Console.WriteLine("\nSpieler eins, du bist am Zug, bitte gebe ein welches Feld du besetzen möchtest (x:y)");
+                            string[] chooice = Console.ReadLine().Split(":");
+
+                            if (chooice.Length != 2)
+                            {
+                                Console.WriteLine("Ups, deine Koordinaten sehen aber lustig aus, bitte nutzte dieses Format, x:y!");
+                                break;
+                            }
+
+                            int.TryParse(chooice[0], out int xCoordinate);
+                            int.TryParse(chooice[1], out int yCoordinate);
+
+                            if (xCoordinate < 0 || xCoordinate > 3 || yCoordinate < 1 || yCoordinate > 3)
+                            {
+                                Console.WriteLine("Diese Koordinaten existieren nicht, bitte versuche es nocheinmal.");
+                                break;
+                            }
+
+                            int selectedField;
+                            if (xCoordinate == 1)
+                                selectedField = yCoordinate;
+                            else if (xCoordinate == 2)
+                                selectedField = 3 + yCoordinate;
+                            else
+                                selectedField = 6 + yCoordinate;
+
+                            if (FieldsValues[selectedField - 1] == " ")
+                            {
+                                OccupiedFieldsCount++;
+                                FieldsValues[selectedField - 1] = CharacterPlayerOne;
+                                break;
+                            }
+
+                            Console.WriteLine("Ups, dieses Feld ist bereits durch deinen Gegener belegt, bitte wähle ein anderes Feld.");
+                        }
+                    }
+                    else
+                    {
+                        isPlayerOneTurn = !isPlayerOneTurn;
+                        while (true)
+                        {
+                            Console.WriteLine("\nSpieler zwei, du bist am Zug, bitte gebe ein welches Feld du besetzen möchtest (x:y)");
+                            string[] chooice = Console.ReadLine().Split(":");
+
+                            if (chooice.Length != 2)
+                            {
+                                Console.WriteLine("Ups, deine Koordinaten sehen aber lustig aus, bitte nutzte dieses Format, x:y!");
+                                break;
+                            }
+
+                            int.TryParse(chooice[0], out int xCoordinate);
+                            int.TryParse(chooice[1], out int yCoordinate);
+
+                            if (xCoordinate < 0 || xCoordinate > 3 || yCoordinate < 1 || yCoordinate > 3)
+                            {
+                                Console.WriteLine("Diese Koordinaten existieren nicht, bitte versuche es nocheinmal.");
+                                break;
+                            }
+
+                            int selectedField;
+                            if (xCoordinate == 1)
+                                selectedField = yCoordinate;
+                            else if (xCoordinate == 2)
+                                selectedField = 3 + yCoordinate;
+                            else
+                                selectedField = 6 + yCoordinate;
+
+                            if (FieldsValues[selectedField - 1] == " ")
+                            {
+                                OccupiedFieldsCount++;
+                                FieldsValues[selectedField - 1] = CharacterPlayerTwo;
+                                break;
+                            }
+
+                            Console.WriteLine("Ups, dieses Feld ist bereits durch deinen Gegener belegt, bitte wähle ein anderes Feld.");
+                        }
+                    }
+
+                }
+
+                Console.WriteLine("Möchtest du nocheinmal Spielen? [1] Ja | [2] Beenden");
+                if (Console.ReadLine() != "1")
+                    break;
+
+                FieldsValues = new string[] { " ", " ", " ", " ", " ", " ", " ", " ", " ", };
+                OccupiedFieldsCount = 0;
+            }
+        }
+
+        private static bool IsGameEnded()
+        {
+            if ((FieldsValues[0] == CharacterPlayerOne && FieldsValues[1] == CharacterPlayerOne && FieldsValues[2] == CharacterPlayerOne) ||
+                (FieldsValues[3] == CharacterPlayerOne && FieldsValues[4] == CharacterPlayerOne && FieldsValues[5] == CharacterPlayerOne) ||
+                (FieldsValues[6] == CharacterPlayerOne && FieldsValues[7] == CharacterPlayerOne && FieldsValues[8] == CharacterPlayerOne) ||
+                (FieldsValues[6] == CharacterPlayerOne && FieldsValues[4] == CharacterPlayerOne && FieldsValues[2] == CharacterPlayerOne) ||
+                (FieldsValues[0] == CharacterPlayerOne && FieldsValues[4] == CharacterPlayerOne && FieldsValues[8] == CharacterPlayerOne) ||
+                (FieldsValues[0] == CharacterPlayerOne && FieldsValues[3] == CharacterPlayerOne && FieldsValues[6] == CharacterPlayerOne) ||
+                (FieldsValues[1] == CharacterPlayerOne && FieldsValues[4] == CharacterPlayerOne && FieldsValues[7] == CharacterPlayerOne) ||
+                (FieldsValues[2] == CharacterPlayerOne && FieldsValues[5] == CharacterPlayerOne && FieldsValues[8] == CharacterPlayerOne))
+            {
+                DrawField();
+                Console.WriteLine("\nDas Spiel ist zu ende und Spieler eins ist der Glückliche gewinner!");
+                return true;
+            }
+
+            if ((FieldsValues[0] == CharacterPlayerTwo && FieldsValues[1] == CharacterPlayerTwo && FieldsValues[2] == CharacterPlayerTwo) ||
+                (FieldsValues[3] == CharacterPlayerTwo && FieldsValues[4] == CharacterPlayerTwo && FieldsValues[5] == CharacterPlayerTwo) ||
+                (FieldsValues[6] == CharacterPlayerTwo && FieldsValues[7] == CharacterPlayerTwo && FieldsValues[8] == CharacterPlayerTwo) ||
+                (FieldsValues[6] == CharacterPlayerTwo && FieldsValues[4] == CharacterPlayerTwo && FieldsValues[2] == CharacterPlayerTwo) ||
+                (FieldsValues[0] == CharacterPlayerTwo && FieldsValues[4] == CharacterPlayerTwo && FieldsValues[8] == CharacterPlayerTwo) ||
+                (FieldsValues[0] == CharacterPlayerTwo && FieldsValues[3] == CharacterPlayerTwo && FieldsValues[6] == CharacterPlayerTwo) ||
+                (FieldsValues[1] == CharacterPlayerTwo && FieldsValues[4] == CharacterPlayerTwo && FieldsValues[7] == CharacterPlayerTwo) ||
+                (FieldsValues[2] == CharacterPlayerTwo && FieldsValues[5] == CharacterPlayerTwo && FieldsValues[8] == CharacterPlayerTwo))
+            {
+                DrawField();
+                Console.WriteLine("\nDas Spiel ist zu ende und Spieler zwei ist der Glückliche gewinner!");
+                return true;
+            }
+            return false;
+        }
+
+        public static void DrawField()
+        {
+            Console.Clear();
+            Console.WriteLine(" ___________");
+            Console.WriteLine("| y  1 2 3  |");
+            Console.WriteLine("|x   _ _ _  |");
+            Console.WriteLine($"| 1 |{FieldsValues[0]}|{FieldsValues[1]}|{FieldsValues[2]}| |");
+            Console.WriteLine($"| 2 |{FieldsValues[3]}|{FieldsValues[4]}|{FieldsValues[5]}| |");
+            Console.WriteLine($"| 3 |{FieldsValues[6]}|{FieldsValues[7]}|{FieldsValues[8]}| |");
+            Console.WriteLine("|           |");
+            Console.WriteLine("|___________|");
+
+        }
+
+
+    }
+}
